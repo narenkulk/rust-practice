@@ -22,7 +22,8 @@ fn main() {
                 println!("Your number is greater than secret");
             }
             Ordering::Equal => {
-                println!("You guessed it!");
+                println!("You guessed it!!");
+                println!("OK");
                 break;
             }
         }
