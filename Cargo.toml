@@ -1,0 +1,5 @@
+[workspace]
+
+members = [
+    "guessing_game","guessing_game2","practice_concepts","practice_tests","stack_heap","ownership"
+]
