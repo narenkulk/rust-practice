@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-    "guessing_game","guessing_game2","practice_concepts","practice_tests","stack_heap","ownership"
+    "01_guessing_game","01a_guessing_game","05_control_flow","02_stack_heap","03_ownership", "04_slices", "06_str_string", "07_structure", "08_enum_example", "09_modules", "10_vectors"
+    , "11_hash_map", 
 ]

@@ -3,5 +3,7 @@
   "rust-analyzer.cargo.loadOutDirsFromCheck": true,
   "rust-analyzer.cargo.autoreload": true,
   "rust-analyzer.showUnlinkedFileNotification": true,
-
+  "rust-analyzer.linkedProjects": [
+    "./09_modules/Cargo.toml",
+  ]
 }
