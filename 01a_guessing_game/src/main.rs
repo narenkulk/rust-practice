@@ -2,34 +2,45 @@ use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
 
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 10 {
+            println!("value must be between 1 and 10, got {value}");
+        }
+        Guess { value }
+    }
+
+    pub fn value(&self) -> i32 {
+        self.value
+    }
+}
+
 fn main() {
-    let secret_number: u32 = rand::thread_rng().gen_range(1..=10);
-    let mut count: u32 = 1;
+    let secret_number: i32 = rand::thread_rng().gen_range(1..=10);
+    let mut count: u32 = 0;
 
     loop {
         println!("Enter the number to guess:");
-
-        let mut guess = String::new();
+        let mut guess_userinput = String::new();
         io::stdin()
-            .read_line(&mut guess)
-            .expect("Please enter a number");
+            .read_line(&mut guess_userinput)
+            .expect("Couldn't read the number!");
 
-        let guess: u32 = match guess.trim().parse() {
-            Ok(result) => result,
-            Err(_) => {
-                println!("You didn't enter a number but ok ");
-                continue;
-            }
-        };
+        let mut guess = Guess::new(guess_userinput.trim().parse().unwrap());
 
-        match &guess.cmp(&secret_number) {
+        count += 1;
+
+        match secret_number.cmp(&mut guess.value) {
             Ordering::Equal => {
-                println!("You win! total guess: {count}");
+                println!("You got it right in {count} count!!");
                 break;
             }
-            Ordering::Greater => println!("Number is greater"),
-            Ordering::Less => println!("Number is lesser"),
+            Ordering::Greater => println!("Secret number is greater than yours"),
+            Ordering::Less => println!("Secret number is lesser than yours"),
         }
-        count += 1;
     }
 }

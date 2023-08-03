@@ -1,0 +1,3 @@
+Hello, I am learning Rust
+ This is an exciting programming language! 
+ And I love it ! 
