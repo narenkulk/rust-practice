@@ -2,5 +2,5 @@
 
 members = [
     "01_guessing_game","01a_guessing_game","05_control_flow","02_stack_heap","03_ownership", "04_slices", "06_str_string", "07_structure", "08_enum_example", "09_modules", "10_vectors"
-    , "11_hash_map", "12_error_handling", "13_generics", "14_traits"
+    , "11_hash_map", "12_error_handling", "13_generics", "14_traits", "15_lifetimes"
 ]
