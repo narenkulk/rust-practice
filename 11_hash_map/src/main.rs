@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use serde_json::{json, Value};
+use serde_json::json;
 use std::collections::HashMap;
 fn main() {
     let mut scores = HashMap::new();
@@ -42,4 +42,20 @@ fn main() {
 
     println!("{:#?}", map);
     println!("{}", pretty_json);
+//     {
+//     "C Drive": {
+//         "Directory-1": Entry {
+//             file: "File-1",
+//             directory: {},
+//         },
+//     },
+// }
+// {
+//   "C Drive": {
+//     "Directory-1": {
+//       "directory": {},
+//       "file": "File-1"
+//     }
+//   }
+// }
 }
