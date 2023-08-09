@@ -24,7 +24,7 @@ fn main() {
             }
             Ordering::Equal => {
                 // println!("You guessed it!!");
-                println!("OK");
+                println!("OK, I guess you didn't cheat!");
                 break;
             }
         }
