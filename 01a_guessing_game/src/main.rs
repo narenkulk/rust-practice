@@ -44,3 +44,21 @@ fn main() {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new_guess_valid_value() {
+        let guess = Guess::new(5);
+        assert_eq!(guess.value(), 5);
+    }
+
+    // #[test]
+    // #[should_panic(expected = "value must be between 1 and 10")]
+    // fn test_new_guess_invalid_value() {
+    //     Guess::new(11);
+    // }
+}
+
