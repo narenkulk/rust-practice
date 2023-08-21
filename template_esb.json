@@ -1,0 +1,970 @@
+{
+  "apiVersion": "v1",
+  "kind": "Pod",
+  "metadata": {
+    "annotations": {
+      "openshift.io/deployment-config.latest-version": "10",
+      "openshift.io/deployment-config.name": "esb",
+      "openshift.io/deployment.name": "esb-10",
+      "openshift.io/scc": "anyuid"
+    },
+    "creationTimestamp": "2023-08-18T06:51:49Z",
+    "generateName": "esb-10-",
+    "labels": {
+      "deployment": "esb-10",
+      "deploymentconfig": "esb",
+      "internal.acs.amadeus.com/component": "esb",
+      "internal.acs.amadeus.com/env-name": "esb",
+      "internal.acs.amadeus.com/env-type": "DML",
+      "internal.acs.amadeus.com/env-version": "mgt_ahp_8.5ch.5",
+      "internal.acs.amadeus.com/traffic": "yes",
+      "internal.acs.amadeus.com/version": "8.18.0",
+      "name": "esb",
+      "prometheus.io/scrape-fluentbit": "true"
+    },
+    "name": "esb-10-wv56g",
+    "namespace": "mgt-int-d",
+    "ownerReferences": [
+      {
+        "apiVersion": "v1",
+        "blockOwnerDeletion": true,
+        "controller": true,
+        "kind": "ReplicationController",
+        "name": "esb-10",
+        "uid": "42151379-383c-11ee-8d89-fa163ee7b8f0"
+      }
+    ],
+    "resourceVersion": "529423281",
+    "selfLink": "/api/v1/namespaces/mgt-int-d/pods/esb-10-wv56g",
+    "uid": "b4e52ad7-3d93-11ee-8a1b-fa163e763460"
+  },
+  "spec": {
+    "affinity": {},
+    "containers": [
+      {
+        "args": [
+          "--cryptomanagerconf",
+          "/etc/secret-volume/con-ssl-certificates/crypto.conf",
+          "--traceConfig",
+          "/etc/traceconf/mag.traceconf"
+        ],
+        "env": [
+          {
+            "name": "LOGSERVER_SERVICE_NAME",
+            "value": "logserver"
+          },
+          {
+            "name": "STDOUT_FILTER",
+            "value": "*:FATAL+CRIT+ERROR+WARN"
+          },
+          {
+            "name": "FWK_INFO_FILTER",
+            "value": "MDW:FATAL+CRIT+ERROR+WARN+NOT+INFO+STAT, APP:*, SYS:*"
+          }
+        ],
+        "image": "acs_fwk/sei_master:8.18.0",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "mag",
+        "resources": {
+          "limits": {
+            "cpu": "200m",
+            "memory": "600Mi"
+          },
+          "requests": {
+            "cpu": "50m",
+            "memory": "400Mi"
+          }
+        },
+        "securityContext": {
+          "capabilities": {
+            "drop": [
+              "MKNOD"
+            ]
+          },
+          "privileged": false
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/var/log/amadeus",
+            "name": "log"
+          },
+          {
+            "mountPath": "/run/amadeus/sei_config",
+            "name": "mag-config"
+          },
+          {
+            "mountPath": "/etc/secret-volume/con-ssl-certificates",
+            "name": "con-ssl-certificates",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/etc/traceconf",
+            "name": "traceconf"
+          },
+          {
+            "mountPath": "/etc/sic-rules",
+            "name": "sic-rules",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "esb-sa-token-bnqx5",
+            "readOnly": true
+          }
+        ]
+      },
+      {
+        "args": [
+          "--traceConfig",
+          "/etc/traceconf/agt.traceconf"
+        ],
+        "env": [
+          {
+            "name": "LOGSERVER_SERVICE_NAME",
+            "value": "logserver"
+          },
+          {
+            "name": "STDOUT_FILTER",
+            "value": "*:FATAL+CRIT+ERROR+WARN"
+          },
+          {
+            "name": "FWK_INFO_FILTER",
+            "value": "MDW:FATAL+CRIT+ERROR+WARN+NOT+INFO+STAT, APP:*, SYS:*"
+          }
+        ],
+        "image": "acs_fwk/sei_agent:8.18.0",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "agent",
+        "resources": {
+          "limits": {
+            "cpu": "200m",
+            "memory": "300Mi"
+          },
+          "requests": {
+            "cpu": "20m",
+            "memory": "200Mi"
+          }
+        },
+        "securityContext": {
+          "capabilities": {
+            "drop": [
+              "MKNOD"
+            ]
+          },
+          "privileged": false
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/var/log/amadeus",
+            "name": "log"
+          },
+          {
+            "mountPath": "/etc/traceconf",
+            "name": "traceconf"
+          },
+          {
+            "mountPath": "/etc/sic-rules",
+            "name": "sic-rules",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "esb-sa-token-bnqx5",
+            "readOnly": true
+          }
+        ]
+      },
+      {
+        "args": [
+          "--cryptomanagerconf",
+          "/etc/secret-volume/con-ssl-certificates/crypto.conf",
+          "--traceConfig",
+          "/etc/traceconf/mux.traceconf"
+        ],
+        "env": [
+          {
+            "name": "LOGSERVER_SERVICE_NAME",
+            "value": "logserver"
+          },
+          {
+            "name": "STDOUT_FILTER",
+            "value": "*:FATAL+CRIT+ERROR+WARN"
+          },
+          {
+            "name": "ESB_INFO_FILTER",
+            "value": "MDW:FATAL+CRIT+ERROR+WARN+NOT+INFO+STAT, APP:*, SYS:*"
+          },
+          {
+            "name": "KAFKA_SERVICE_NAME",
+            "value": "kafka-service"
+          },
+          {
+            "name": "KAFKA_FILTER_MSG",
+            "value": "MDW:LOG:KAFKA"
+          },
+          {
+            "name": "KAFKA_FILTER_INFO",
+            "value": "MDW:NOT"
+          },
+          {
+            "name": "KAFKA_MAX_BUFFERING_MSG",
+            "value": "2000"
+          },
+          {
+            "name": "KAFKA_MAX_MESSAGES",
+            "value": "10000"
+          },
+          {
+            "name": "KAFKA_COMPRESSION",
+            "value": "NONE"
+          },
+          {
+            "name": "TRC_SEND_FREETEXT",
+            "value": "YES"
+          }
+        ],
+        "image": "acs_fwk/sei_mux:8.18.0",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "mux",
+        "ports": [
+          {
+            "containerPort": 2001,
+            "protocol": "TCP"
+          },
+          {
+            "containerPort": 3100,
+            "name": "metrics",
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "initialDelaySeconds": 10,
+          "periodSeconds": 10,
+          "successThreshold": 1,
+          "tcpSocket": {
+            "port": 2001
+          },
+          "timeoutSeconds": 1
+        },
+        "resources": {
+          "limits": {
+            "cpu": "1200m",
+            "memory": "900Mi"
+          },
+          "requests": {
+            "cpu": "600m",
+            "memory": "200Mi"
+          }
+        },
+        "securityContext": {
+          "capabilities": {
+            "drop": [
+              "MKNOD"
+            ]
+          },
+          "privileged": false
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/var/log/amadeus",
+            "name": "log"
+          },
+          {
+            "mountPath": "/etc/secret-volume/con-ssl-certificates",
+            "name": "con-ssl-certificates",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/etc/traceconf",
+            "name": "traceconf"
+          },
+          {
+            "mountPath": "/etc/sic-rules",
+            "name": "sic-rules",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/tmp/log",
+            "name": "fluent-bit-metrics-vol"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "esb-sa-token-bnqx5",
+            "readOnly": true
+          }
+        ]
+      },
+      {
+        "args": [
+          "--traceConfig",
+          "/etc/traceconf/srv.traceconf"
+        ],
+        "env": [
+          {
+            "name": "LOGSERVER_SERVICE_NAME",
+            "value": "logserver"
+          },
+          {
+            "name": "STDOUT_FILTER",
+            "value": "*:FATAL+CRIT+ERROR+WARN"
+          },
+          {
+            "name": "ESB_INFO_FILTER",
+            "value": "MDW:FATAL+CRIT+ERROR+WARN+NOT+INFO+STAT, APP:*, SYS:*"
+          },
+          {
+            "name": "KAFKA_SERVICE_NAME",
+            "value": "kafka-service"
+          },
+          {
+            "name": "KAFKA_FILTER_MSG",
+            "value": "MDW:LOG:KAFKA"
+          },
+          {
+            "name": "KAFKA_MAX_BUFFERING_MSG",
+            "value": "2000"
+          },
+          {
+            "name": "KAFKA_MAX_MESSAGES",
+            "value": "10000"
+          },
+          {
+            "name": "KAFKA_COMPRESSION",
+            "value": "NONE"
+          },
+          {
+            "name": "ESB_METRICS_FILTER",
+            "value": "MDW:LOG:KAFKA"
+          },
+          {
+            "name": "TRC_SEND_FREETEXT",
+            "value": "YES"
+          }
+        ],
+        "image": "acs_fwk/sei_srv:8.18.0",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "srv",
+        "ports": [
+          {
+            "containerPort": 3101,
+            "name": "metrics",
+            "protocol": "TCP"
+          }
+        ],
+        "resources": {
+          "limits": {
+            "cpu": "3",
+            "memory": "900Mi"
+          },
+          "requests": {
+            "cpu": "1500m",
+            "memory": "200Mi"
+          }
+        },
+        "securityContext": {
+          "capabilities": {
+            "drop": [
+              "MKNOD"
+            ]
+          },
+          "privileged": false
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/var/log/amadeus",
+            "name": "log"
+          },
+          {
+            "mountPath": "/etc/secret-volume/con-ssl-certificates",
+            "name": "con-ssl-certificates",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/etc/traceconf",
+            "name": "traceconf"
+          },
+          {
+            "mountPath": "/etc/sic-rules",
+            "name": "sic-rules",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/tmp/log",
+            "name": "fluent-bit-metrics-vol"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "esb-sa-token-bnqx5",
+            "readOnly": true
+          }
+        ]
+      },
+      {
+        "args": [
+          "--mag-default-config",
+          "acs-project/blueprint/acs_fwk/8.18.0/sro_base_config.txt,acs-project/blueprint/acs_fwk/8.18.0/lss_base_config.txt,acs-project/blueprint/acs_fwk/8.18.0/fdf_commands.txt",
+          "--mag-custom-config",
+          "blueprint-cfts-ahp/blueprint/acs_lss/4.8.7/lss_esb_config.txt,blueprint-cfts-ahp/blueprint/esb_configuration_ahp/ahp-3.0.109/ahp.txt,blueprint-cfts-ahp/blueprint/esb_configuration_ahp/ahp-3.0.109/clp.txt,blueprint-cfts-ahp/blueprint/esb_configuration_ahp/ahp-3.0.109/ahap.txt,blueprint-cfts-ahp/blueprint/esb_configuration_ahp/ahp-3.0.109/acmd.txt,blueprint-cfts-ahp/blueprint/esb_configuration_ahp/ahp-3.0.109/pcg.txt",
+          "--logtostderr",
+          "-v",
+          "2",
+          "--dml-username",
+          "$(DML_USER_SECRET_USERNAME)",
+          "--dml-password",
+          "$(DML_USER_SECRET_PASSWORD)",
+          "--dml-namespace",
+          "$(DML_NAMESPACE)"
+        ],
+        "env": [
+          {
+            "name": "NAMESPACE",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "metadata.namespace"
+              }
+            }
+          },
+          {
+            "name": "DML_USER_SECRET_USERNAME",
+            "valueFrom": {
+              "secretKeyRef": {
+                "key": "username",
+                "name": "dml-credentials"
+              }
+            }
+          },
+          {
+            "name": "DML_USER_SECRET_PASSWORD",
+            "valueFrom": {
+              "secretKeyRef": {
+                "key": "password",
+                "name": "dml-credentials"
+              }
+            }
+          },
+          {
+            "name": "DML_NAMESPACE",
+            "value": "default"
+          }
+        ],
+        "envFrom": [
+          {
+            "secretRef": {
+              "name": "mag-credentials",
+              "optional": true
+            }
+          }
+        ],
+        "image": "acs_obe/esb-broker:1.25.0",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "esb-broker",
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/health",
+            "port": 4401,
+            "scheme": "HTTP"
+          },
+          "initialDelaySeconds": 10,
+          "periodSeconds": 10,
+          "successThreshold": 1,
+          "timeoutSeconds": 1
+        },
+        "resources": {
+          "limits": {
+            "cpu": "200m",
+            "memory": "200Mi"
+          },
+          "requests": {
+            "cpu": "100m",
+            "memory": "66Mi"
+          }
+        },
+        "securityContext": {
+          "capabilities": {
+            "drop": [
+              "MKNOD"
+            ]
+          },
+          "privileged": false
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/etc/secret-volume/con-ssl-certificates",
+            "name": "con-ssl-certificates",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "esb-sa-token-bnqx5",
+            "readOnly": true
+          }
+        ]
+      },
+      {
+        "env": [
+          {
+            "name": "CONSUL_CLUSTER_NAMESPACE",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "metadata.namespace"
+              }
+            }
+          }
+        ],
+        "image": "acs_fwk/consul_agent:8.9.0",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "consul-agent",
+        "resources": {
+          "limits": {
+            "cpu": "40m",
+            "memory": "75Mi"
+          },
+          "requests": {
+            "cpu": "4m",
+            "memory": "50Mi"
+          }
+        },
+        "securityContext": {
+          "capabilities": {
+            "drop": [
+              "MKNOD"
+            ]
+          },
+          "privileged": false
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/etc/consul/data",
+            "name": "consul-data"
+          },
+          {
+            "mountPath": "/etc/secret-volume/consul-encryption",
+            "name": "consul-encryption",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "esb-sa-token-bnqx5",
+            "readOnly": true
+          }
+        ]
+      },
+      {
+        "env": [
+          {
+            "name": "NAMESPACE",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "metadata.namespace"
+              }
+            }
+          },
+          {
+            "name": "SERVICE_REGEX_URL",
+            "value": "blueprint-cfts-ahp/ahp/grafana_service_names/service-regexps-0.0.114.json"
+          },
+          {
+            "name": "DML_USERNAME",
+            "valueFrom": {
+              "secretKeyRef": {
+                "key": "username",
+                "name": "dml-credentials",
+                "optional": true
+              }
+            }
+          },
+          {
+            "name": "DML_PASSWORD",
+            "valueFrom": {
+              "secretKeyRef": {
+                "key": "password",
+                "name": "dml-credentials",
+                "optional": true
+              }
+            }
+          },
+          {
+            "name": "TOPICS",
+            "value": "events.simux,events.info.simux,events.sisrv"
+          }
+        ],
+        "image": "mnr/fluent-bit-agg/fluent-bit-agg-all:1.3.4",
+        "imagePullPolicy": "IfNotPresent",
+        "livenessProbe": {
+          "exec": {
+            "command": [
+              "/check.sh"
+            ]
+          },
+          "failureThreshold": 3,
+          "periodSeconds": 10,
+          "successThreshold": 1,
+          "timeoutSeconds": 2
+        },
+        "name": "fluent-bit-agg-all",
+        "ports": [
+          {
+            "containerPort": 18088,
+            "name": "prom-flb-mux",
+            "protocol": "TCP"
+          },
+          {
+            "containerPort": 18089,
+            "name": "prom-flb-srv",
+            "protocol": "TCP"
+          },
+          {
+            "containerPort": 18090,
+            "name": "prom-flb-rjt",
+            "protocol": "TCP"
+          }
+        ],
+        "resources": {
+          "limits": {
+            "memory": "200Mi"
+          },
+          "requests": {
+            "cpu": "100m",
+            "memory": "100Mi"
+          }
+        },
+        "securityContext": {
+          "capabilities": {
+            "drop": [
+              "MKNOD"
+            ]
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/tmp/log",
+            "name": "fluent-bit-metrics-vol",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "esb-sa-token-bnqx5",
+            "readOnly": true
+          }
+        ]
+      }
+    ],
+    "dnsPolicy": "ClusterFirst",
+    "imagePullSecrets": [
+      {
+        "name": "esb-sa-dockercfg-xs6ng"
+      }
+    ],
+    "initContainers": [
+      {
+        "args": [
+          "tar --directory=/etc/sic-rules --extract --file=/etc/traceconf/sic.tar.gz --gzip --verbose ; exit 0"
+        ],
+        "command": [
+          "bash",
+          "-c"
+        ],
+        "image": "acs/rhel:8.6.65",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "extract-sic-rules",
+        "resources": {
+          "limits": {
+            "memory": "500Mi"
+          },
+          "requests": {
+            "memory": "500Mi"
+          }
+        },
+        "securityContext": {
+          "capabilities": {
+            "drop": [
+              "MKNOD"
+            ]
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/etc/traceconf",
+            "name": "traceconf",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/etc/sic-rules",
+            "name": "sic-rules"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "esb-sa-token-bnqx5",
+            "readOnly": true
+          }
+        ]
+      }
+    ],
+    "nodeName": "ose3-cop-d-minion-node18.node.tst-iad-ocp-1a-us-east-1.acs",
+    "nodeSelector": {
+      "node-role.kubernetes.io/compute": "true"
+    },
+    "priority": 0,
+    "restartPolicy": "Always",
+    "schedulerName": "default-scheduler",
+    "securityContext": {
+      "seLinuxOptions": {
+        "level": "s0:c24,c14"
+      }
+    },
+    "serviceAccount": "esb-sa",
+    "serviceAccountName": "esb-sa",
+    "terminationGracePeriodSeconds": 30,
+    "tolerations": [
+      {
+        "effect": "NoSchedule",
+        "key": "node.kubernetes.io/memory-pressure",
+        "operator": "Exists"
+      }
+    ],
+    "volumes": [
+      {
+        "emptyDir": {},
+        "name": "log"
+      },
+      {
+        "configMap": {
+          "defaultMode": 420,
+          "name": "esb-traceconf"
+        },
+        "name": "traceconf"
+      },
+      {
+        "emptyDir": {},
+        "name": "sic-rules"
+      },
+      {
+        "emptyDir": {},
+        "name": "mag-config"
+      },
+      {
+        "name": "con-ssl-certificates",
+        "secret": {
+          "defaultMode": 256,
+          "secretName": "con-ssl-certificates"
+        }
+      },
+      {
+        "emptyDir": {},
+        "name": "consul-data"
+      },
+      {
+        "name": "consul-encryption",
+        "secret": {
+          "defaultMode": 420,
+          "secretName": "consul-encryption"
+        }
+      },
+      {
+        "emptyDir": {},
+        "name": "fluent-bit-metrics-vol"
+      },
+      {
+        "name": "esb-sa-token-bnqx5",
+        "secret": {
+          "defaultMode": 420,
+          "secretName": "esb-sa-token-bnqx5"
+        }
+      }
+    ]
+  },
+  "status": {
+    "conditions": [
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2023-08-18T06:51:53Z",
+        "status": "True",
+        "type": "Initialized"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2023-08-21T03:27:34Z",
+        "message": "containers with unready status: [esb-broker]",
+        "reason": "ContainersNotReady",
+        "status": "False",
+        "type": "Ready"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": null,
+        "message": "containers with unready status: [esb-broker]",
+        "reason": "ContainersNotReady",
+        "status": "False",
+        "type": "ContainersReady"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2023-08-18T06:51:49Z",
+        "status": "True",
+        "type": "PodScheduled"
+      }
+    ],
+    "containerStatuses": [
+      {
+        "containerID": "cri-o://b911f89456841993b0988c5a42d30052b63a1e0f8530a4461f0f922037f38440",
+        "image": "dml.service.acs:5002/acs_fwk/sei_agent:8.18.0",
+        "imageID": "dml.service.acs:5002/acs_fwk/sei_agent@sha256:c7d44e1d1a6e47ebe41d38c7749606aa701d7ff1b1343ace05da62fafde03f85",
+        "lastState": {},
+        "name": "agent",
+        "ready": true,
+        "restartCount": 0,
+        "state": {
+          "running": {
+            "startedAt": "2023-08-18T06:51:55Z"
+          }
+        }
+      },
+      {
+        "containerID": "cri-o://7a0dff4ab2173389b6ed99329883112590e1d2b5d0000c4dae239a05aaf10fea",
+        "image": "dml.service.acs:5002/acs_fwk/consul_agent:8.9.0",
+        "imageID": "dml.service.acs:5002/acs_fwk/consul_agent@sha256:2d83ebef85df01db44edc434136f1fe12987dafd9fe38320db53edc5db384198",
+        "lastState": {},
+        "name": "consul-agent",
+        "ready": true,
+        "restartCount": 0,
+        "state": {
+          "running": {
+            "startedAt": "2023-08-18T06:52:00Z"
+          }
+        }
+      },
+      {
+        "containerID": "cri-o://212c3c208f5699fd493c41e47b1804cb5e3357a812a6792993848509869d3e0e",
+        "image": "dml.service.acs:5002/acs_obe/esb-broker:1.25.0",
+        "imageID": "dml.service.acs:5002/acs_obe/esb-broker@sha256:8bd5842afd894273b83eaf3c6926b83d40de743e9bb7ea0aad146cc2adc680e9",
+        "lastState": {},
+        "name": "esb-broker",
+        "ready": false,
+        "restartCount": 0,
+        "state": {
+          "running": {
+            "startedAt": "2023-08-18T06:51:57Z"
+          }
+        }
+      },
+      {
+        "containerID": "cri-o://ea4e9245fe45b0150bb82c551d2c0cb2ae9415c3de24060ea2f0ea7b4760ed47",
+        "image": "dml.service.acs:5002/mnr/fluent-bit-agg/fluent-bit-agg-all:1.3.4",
+        "imageID": "dml.service.acs:5002/mnr/fluent-bit-agg/fluent-bit-agg-all@sha256:a5c1c232a721554fbe73747086c23802947d7ad7da683dce5d880ea9555e8a4f",
+        "lastState": {},
+        "name": "fluent-bit-agg-all",
+        "ready": true,
+        "restartCount": 0,
+        "state": {
+          "running": {
+            "startedAt": "2023-08-18T06:52:01Z"
+          }
+        }
+      },
+      {
+        "containerID": "cri-o://228a99f9e856b04b5bd66bc4df5b406cd8e5e736477517f8ef24a8cb49b151d6",
+        "image": "dml.service.acs:5002/acs_fwk/sei_master:8.18.0",
+        "imageID": "dml.service.acs:5002/acs_fwk/sei_master@sha256:1550d2287d113363cf4449e20343a433f6965593c6d8f134b099cf5dbd8247ef",
+        "lastState": {},
+        "name": "mag",
+        "ready": true,
+        "restartCount": 0,
+        "state": {
+          "running": {
+            "startedAt": "2023-08-18T06:51:54Z"
+          }
+        }
+      },
+      {
+        "containerID": "cri-o://f0ec2376c7dc2402f548de3cb3d5ed6c218361029c77784400c3ab875cae2d54",
+        "image": "dml.service.acs:5002/acs_fwk/sei_mux:8.18.0",
+        "imageID": "dml.service.acs:5002/acs_fwk/sei_mux@sha256:e17fa275b7fa1f88682e9d15ff70f4c3cd6d7b484fcb2d63f5b841f63390d209",
+        "lastState": {
+          "terminated": {
+            "containerID": "cri-o://e134c848fc1b6ff00b42d3310380fc7488dc068c9d67732ef77ab10c0ed14190",
+            "exitCode": 139,
+            "finishedAt": "2023-08-21T16:55:06Z",
+            "reason": "Error",
+            "startedAt": "2023-08-21T13:11:22Z"
+          }
+        },
+        "name": "mux",
+        "ready": true,
+        "restartCount": 8,
+        "state": {
+          "running": {
+            "startedAt": "2023-08-21T16:55:29Z"
+          }
+        }
+      },
+      {
+        "containerID": "cri-o://13df2f470db8c3bc7004953a4b29a334e28f085a2df18a05430faac7696773ad",
+        "image": "dml.service.acs:5002/acs_fwk/sei_srv:8.18.0",
+        "imageID": "dml.service.acs:5002/acs_fwk/sei_srv@sha256:01df4da0da190dc457cf0a9f4009ada32a707c5633d33ecef4b7a72dc816cba0",
+        "lastState": {
+          "terminated": {
+            "containerID": "cri-o://64f6e07ee1992e2f57bfa24b85827539f935b669bee5d1de775edaed0aebc19f",
+            "exitCode": 139,
+            "finishedAt": "2023-08-21T13:10:58Z",
+            "reason": "Error",
+            "startedAt": "2023-08-21T03:28:00Z"
+          }
+        },
+        "name": "srv",
+        "ready": true,
+        "restartCount": 8,
+        "state": {
+          "running": {
+            "startedAt": "2023-08-21T13:11:25Z"
+          }
+        }
+      }
+    ],
+    "hostIP": "192.168.64.64",
+    "initContainerStatuses": [
+      {
+        "containerID": "cri-o://7129169c5c94832acf6eb60a7ae2cf77f1ee165c32f3355a12beb28fe1d10140",
+        "image": "dml.service.acs:5002/acs/rhel:8.6.65",
+        "imageID": "dml.service.acs:5002/acs/rhel@sha256:e790f3f2028b26144423b55219cab3b850b0714455d3100e06315cd970fcfeb2",
+        "lastState": {},
+        "name": "extract-sic-rules",
+        "ready": true,
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "cri-o://7129169c5c94832acf6eb60a7ae2cf77f1ee165c32f3355a12beb28fe1d10140",
+            "exitCode": 0,
+            "finishedAt": "2023-08-18T06:51:52Z",
+            "reason": "Completed",
+            "startedAt": "2023-08-18T06:51:52Z"
+          }
+        }
+      }
+    ],
+    "phase": "Running",
+    "podIP": "10.225.24.62",
+    "qosClass": "Burstable",
+    "startTime": "2023-08-18T06:51:50Zddddd"
+  }
+}

@@ -58,7 +58,7 @@ mod tests {
 
     #[test]
     fn result_contains_carol() {
-        let result = "it contains ca!";
+        let result = "it contains carol!";
         assert!(result.contains("carol"), "Result did not contain 'carol'");
     }
 }
