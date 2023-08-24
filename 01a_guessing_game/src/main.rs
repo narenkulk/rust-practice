@@ -61,4 +61,3 @@ mod tests {
     //     Guess::new(11);
     // }
 }
-

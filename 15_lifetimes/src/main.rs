@@ -1,5 +1,3 @@
-
-
 fn get_int_ref<'a>(int_1: &'a i32, int_2: &i32) -> &'a i32 {
     println!("{int_2}");
     int_1
@@ -28,7 +26,7 @@ fn main() {
 
     println!("Longest String: {}", longest_string);
 
-    let int_ref = get_int_ref(&3,&4);
+    let int_ref = get_int_ref(&3, &4);
     println!("int ref: {int_ref}");
 }
 
@@ -49,4 +47,3 @@ fn main() {
 //     println!("longest str is: {result}");
 
 // }
-
