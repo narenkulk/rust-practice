@@ -1,3 +1,5 @@
+use std::thread;
+
 #[derive(Debug, PartialEq, Copy, Clone)]
 enum ShirtColor {
     Red,
@@ -62,4 +64,44 @@ fn main() {
 
     modify_list();
     println!("After modification by closure: {:?}", list);
+
+    //moving the ownership
+
+    let list = vec![1, 2, 3];
+    println!("Before calling closure: {:?}", list);
+
+    thread::spawn(move || {
+        println!("From thread: {:?}", list);
+    })
+    .join()
+    .unwrap();
+
+    // Fn traits
+    #[derive(Debug)]
+    struct Rectangle {
+        width: u32,
+        height: u32,
+    }
+
+    let mut list = [
+        Rectangle {
+            width: 9,
+            height: 10,
+        },
+        Rectangle {
+            width: 7,
+            height: 11,
+        },
+        Rectangle {
+            width: 8,
+            height: 9,
+        },
+    ];
+    let mut num_operations = 0;
+
+    list.sort_by_key(|r| {
+        num_operations += 1;
+        r.width
+    });
+    println!("Sorted list is: {:#?} and number of times the operations performed during sorting of this list is: {num_operations}", list);
 }
