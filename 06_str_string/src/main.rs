@@ -12,7 +12,7 @@ fn main() {
     let b = false;
     let c = true;
 
-    if a == true && (b == false || c == true) {
+    if a && (b || c) {
         println!("hello")
     }
 }

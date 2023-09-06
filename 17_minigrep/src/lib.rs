@@ -27,17 +27,28 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 pub fn search<'a>(query: &str, contents: &'a str, ignore_case: bool) -> Vec<&'a str> {
     // we return the slices of
     // contents so it has to live as long as contents hence 'a for both
-    let mut results = Vec::new();
-    for line in contents.lines() {
-        if ignore_case {
-            if line.to_lowercase().contains(&query.to_lowercase()) {
-                results.push(line);
-            }
-        } else if line.contains(query) {
-            results.push(line);
-        }
+    // let mut results = Vec::new();
+    if ignore_case {
+        contents
+            .lines()
+            .filter(|line| line.to_lowercase().contains(&query.to_lowercase()))
+            .collect()
+    } else {
+        contents
+            .lines()
+            .filter(|line| line.contains(query))
+            .collect()
     }
-    results
+    // for line in contents.lines() {
+    //     if ignore_case {
+    //         if line.to_lowercase().contains(&query.to_lowercase()) {
+    //             results.push(line);
+    //         }
+    //     } else if line.contains(query) {
+    //         results.push(line);
+    //     }
+    // }
+    // results
 }
 
 pub struct Config {
@@ -47,15 +58,27 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Self, &str> {
-        if args.len() < 3 {
-            return Err("Not enough arguments passed");
-        }
+    pub fn new(mut args: impl Iterator<Item = String>) -> Result<Self, &'static str> {
+        // if args.len() < 3 {
+        //     return Err("Not enough arguments passed");
+        // }
+        args.next(); // the file path , we just ignore it
+        let query_string = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file path"),
+        };
+
+        let ignore_case = env::var("IGNORE_CASE").is_ok();
 
         Ok(Self {
-            query_string: args[1].clone(),
-            file_path: args[2].clone(),
-            ignore_case: env::var("IGNORE_CASE").is_ok(),
+            query_string,
+            file_path,
+            ignore_case,
         })
     }
 }

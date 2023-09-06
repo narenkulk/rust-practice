@@ -1,3 +1,41 @@
+#[derive(Debug, PartialEq)]
+struct Shoe {
+    size: u32,
+    style: String,
+}
+
+fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
+    shoes.into_iter().filter(|s| s.size == shoe_size).collect()
+}
+
+#[test]
+fn matching_shoes() {
+    let shoes_list = vec![
+        Shoe {
+            size: 10,
+            style: String::from("sneakers"),
+        },
+        Shoe {
+            size: 13,
+            style: String::from("boots"),
+        },
+        Shoe {
+            size: 15,
+            style: String::from("sandals"),
+        },
+    ];
+
+    let matched_shoes = shoes_in_size(shoes_list, 10);
+
+    assert_eq!(
+        matched_shoes,
+        vec![Shoe {
+            size: 10,
+            style: String::from("sneakers")
+        }]
+    );
+}
+
 #[test]
 fn iterators_demonstration() {
     let v = vec![1, 2, 3];
