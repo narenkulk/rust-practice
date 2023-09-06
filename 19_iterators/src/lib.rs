@@ -1,3 +1,8 @@
+//! Iterates through a vector and compares by retrieving one item at a time
+/// ```
+/// let v = vec![2,4,6];
+/// assert_eq!(2,2);
+/// ```
 #[derive(Debug, PartialEq)]
 struct Shoe {
     size: u32,
