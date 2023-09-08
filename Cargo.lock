@@ -255,6 +255,10 @@ name = "slices"
 version = "0.1.0"
 
 [[package]]
+name = "smart_pointers"
+version = "0.1.0"
+
+[[package]]
 name = "stack_heap"
 version = "0.1.0"
 
